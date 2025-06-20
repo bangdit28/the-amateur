@@ -20,15 +20,15 @@
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
     }
     
-    /* <<< BARU: Style untuk Slot Iklan */
+    /* Style untuk Slot Iklan */
     .ad-slot {
-        background-color: #0A0A0A; /* Warna latar belakang gelap untuk area iklan */
-        border: 1px dashed #282828; /* Garis putus-putus */
+        background-color: #0A0A0A;
+        border: 1px dashed #282828;
         padding: 10px;
         margin: 20px 0;
         border-radius: 8px;
         text-align: center;
-        min-height: 50px; /* Tinggi minimal agar slot terlihat sebelum iklan dimuat */
+        min-height: 50px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -43,11 +43,14 @@
     .ad-slot .ad-content {
         width: 100%;
     }
-    /* Sembunyikan slot iklan pertama jika mau */
-    /* #ad-slot-top { display: none; } */
 
-    /* Style lainnya tetap sama */
-    .movie-player-box .title-wrapper { border-bottom: 2px solid #282828; padding-bottom: 15px; margin-bottom: 20px; }
+    /* Style lainnya */
+    .movie-player-box .title-wrapper { 
+        border-bottom: 2px solid #282828; 
+        padding-bottom: 15px; 
+        margin-bottom: 20px;
+        text-align: center; /* <<< PERUBAHAN ADA DI SINI */
+    }
     .movie-player-box .movie-title { font-size: 30px; font-weight: 700; color: #E50914; margin: 0; line-height: 1.3; }
     .movie-player-box .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; border-radius: 8px; overflow: hidden; }
     .movie-player-box .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
@@ -77,25 +80,29 @@
     <div class="ad-slot" id="ad-slot-top">
         <span class="ad-label">Advertisement</span>
         <div class="ad-content">
-            <!-- ============================================= -->
-            <!-- PASTE KODE IKLAN BANNER ADSTERRA KAMU DI SINI (Contoh: 728x90) -->
-            <!-- ============================================= -->
-            <!-- CONTOH: <script type="text/javascript" src="//..."></script> -->
+            <!-- PASTE KODE IKLAN BANNER ADSTERRA KAMU DI SINI -->
         </div>
     </div>
     
     <div class="video-wrapper">
         <iframe class="video-player" src="" allowfullscreen></iframe>
     </div>
-
+<script type="text/javascript">
+	atOptions = {
+		'key' : 'f8ee9c6611c534232b6bfd51980b8b18',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/f8ee9c6611c534232b6bfd51980b8b18/invoke.js"></script>
     <!-- IKLAN BANNER -->
     <!-- Slot Iklan 2: Di Bawah Player -->
     <div class="ad-slot" id="ad-slot-bottom">
         <span class="ad-label">Advertisement</span>
         <div class="ad-content">
-            <!-- ============================================= -->
-            <!-- PASTE KODE IKLAN BANNER ADSTERRA KAMU DI SINI (Contoh: 300x250 atau 728x90) -->
-            <!-- ============================================= -->
+            <!-- PASTE KODE IKLAN BANNER ADSTERRA KAMU DI SINI -->
         </div>
     </div>
 
@@ -110,7 +117,7 @@
 </div>
 
 <script>
-    // JavaScript tidak perlu diubah untuk penempatan iklan ini
+    // JavaScript tidak perlu diubah
     document.addEventListener('DOMContentLoaded', () => {
         const playerBox = document.getElementById('movie-player-1');
         const videoPlayer = playerBox.querySelector('.video-player');

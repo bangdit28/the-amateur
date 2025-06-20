@@ -44,13 +44,20 @@
         width: 100%;
     }
 
-    /* <<< CSS BARU DI SINI >>> */
-    /* Membuat wadah iklan bisa di-scroll ke samping di HP */
-    .scrollable-ad-content {
-        overflow-x: auto; /* Mengaktifkan scroll horizontal */
-        -webkit-overflow-scrolling: touch; /* Scroll mulus di iOS */
-        text-align: left; /* Iklan mulai dari kiri */
+    /* ======================================================== */
+    /* <<< SOLUSI BARU & LEBIH KUAT UNTUK BANNER PANJANG >>> */
+    /* ======================================================== */
+    .ad-slot#ad-slot-top {
+        display: block; /* Mengubah dari flex menjadi block agar lebih mudah diatur */
+        overflow-x: auto; /* KUNCI UTAMA: Membuat slot ini bisa di-scroll horizontal */
+        -webkit-overflow-scrolling: touch; /* Membuat scroll lebih mulus di perangkat Apple */
+        padding: 15px 10px; /* Sedikit padding tambahan agar terlihat lebih baik */
     }
+    .ad-slot#ad-slot-top .ad-content {
+        /* Memastikan konten iklan tidak dipaksa mengecil dan mulai dari kiri */
+        text-align: left;
+    }
+
 
     /* Style lainnya */
     .movie-player-box .title-wrapper { 
@@ -86,9 +93,8 @@
 
     <!-- IKLAN BANNER ATAS (728x90) -->
     <div class="ad-slot" id="ad-slot-top">
-        <span class="ad-label">Advertisement</span>
-        <!-- <<< PERUBAHAN HTML DI SINI >>> -->
-        <div class="ad-content scrollable-ad-content">
+        <!-- Tidak perlu ada label "Advertisement" lagi karena sudah jelas ini slot iklan -->
+        <div class="ad-content">
             <script type="text/javascript">
                 atOptions = {
                     'key' : '654bcf4ba6c02c3a8e8692452efbeb53',
@@ -111,15 +117,15 @@
         <span class="ad-label">Advertisement</span>
         <div class="ad-content">
             <script type="text/javascript">
-	atOptions = {
-		'key' : '654bcf4ba6c02c3a8e8692452efbeb53',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/654bcf4ba6c02c3a8e8692452efbeb53/invoke.js"></script>
+                atOptions = {
+                    'key' : 'f8ee9c6611c534232b6bfd51980b8b18',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/f8ee9c6611c534232b6bfd51980b8b18/invoke.js"></script>
         </div>
     </div>
 

@@ -22,17 +22,9 @@
     
     /* Style untuk Slot Iklan */
     .ad-slot {
-        background-color: #0A0A0A;
-        border: 1px dashed #282828;
-        padding: 10px;
-        margin: 20px 0;
-        border-radius: 8px;
-        text-align: center;
-        min-height: 50px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        background-color: #0A0A0A; border: 1px dashed #282828; padding: 10px; margin: 20px 0;
+        border-radius: 8px; text-align: center; min-height: 50px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
     }
     .ad-slot .ad-label { font-size: 10px; color: #555; text-transform: uppercase; margin-bottom: 5px; }
     .ad-slot .ad-content { width: 100%; }
@@ -45,15 +37,17 @@
     .movie-player-box .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; border-radius: 8px; overflow: hidden; }
     .movie-player-box .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     
-    /* ================================================== */
-    /* <<< CSS BARU UNTUK INFO FILM (DENGAN PERATAAN) >>> */
-    /* ================================================== */
+    /* Style Info Film */
     .movie-info-section { background-color: #1F1F1F; padding: 20px; border-radius: 8px; margin-top: 30px; text-align: left; }
     .movie-info-section h3 { font-size: 18px; font-weight: 600; color: #fff; border-bottom: 1px solid #282828; padding-bottom: 10px; margin-top: 0; margin-bottom: 15px; }
-    .movie-info-section .synopsis { font-size: 15px; color: #ccc; line-height: 1.7; margin-bottom: 25px; }
+    
+    /* <<< PERUBAHAN UKURAN FONT SINOPSIS DESKTOP >>> */
+    .movie-info-section .synopsis { font-size: 14px; color: #ccc; line-height: 1.7; margin-bottom: 25px; }
+    
     .movie-info-section .meta-details p { display: flex; align-items: flex-start; font-size: 15px; color: #ccc; margin-bottom: 10px; }
     .movie-info-section .meta-details p strong { flex-basis: 110px; flex-shrink: 0; font-weight: 600; color: #f4f4f4; }
 
+    /* Style Server Controls */
     .movie-player-box .server-controls { margin-top: 20px; padding: 15px; background-color: #1F1F1F; border-radius: 8px; }
     .movie-player-box .server-controls h3 { font-size: 18px; margin-top: 0; margin-bottom: 15px; font-weight: 600; }
     .movie-player-box .server-button-wrapper { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -67,7 +61,13 @@
         .movie-player-box .title-wrapper { margin-bottom: 15px; padding-bottom: 12px; }
         .movie-info-section { padding: 15px; }
         .movie-info-section h3 { font-size: 16px; }
-        .movie-info-section .synopsis, .movie-info-section .meta-details p { font-size: 14px; }
+
+        /* ======================================================== */
+        /* <<< PERUBAHAN UKURAN FONT SINOPSIS & DETAIL DI MOBILE >>> */
+        /* ======================================================== */
+        .movie-info-section .synopsis { font-size: 13px; } /* Dikecilkan */
+        .movie-info-section .meta-details p { font-size: 14px; } /* Ukuran tetap, tapi sekarang lebih besar dari sinopsis */
+
         .movie-info-section .meta-details p strong { flex-basis: 90px; }
         .movie-player-box .server-controls h3 { font-size: 15px; margin-bottom: 12px; }
         .movie-player-box .server-btn { padding: 8px 14px; font-size: 13px; }
@@ -121,7 +121,6 @@
         </p>
         
         <div class="meta-details">
-            <!-- INGAT: UBAH STRUKTUR HTML SEPERTI DI BAWAH INI -->
             <p><strong>Pemeran</strong>: Rami Malek, Rachel Brosnahan, Caitriona Balfe, Laurence Fishburne</p>
             <p><strong>Genre</strong>: Action, Thriller</p>
             <p><strong>Sutradara</strong>: James Hawes</p>

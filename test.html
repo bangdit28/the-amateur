@@ -1,0 +1,208 @@
+<!-- =================================================================== -->
+<!--   MULAI KODE LENGKAP - VERSI FINAL DENGAN ALIGNMENT SEMPURNA        -->
+<!-- =================================================================== -->
+
+<style>
+  /* === [PERUBAHAN UTAMA] Reset dan Box-Sizing untuk konsistensi === */
+  .full-streaming-module * {
+    box-sizing: border-box;
+  }
+
+  /* --- STYLING WRAPPER UTAMA --- */
+  .full-streaming-module {
+    max-width: 854px;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* --- STYLING PLAYER & DETAIL --- */
+  .video-player-wrapper {
+    background: #000;
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  }
+  .player-top-bar {
+    background-color: #c00; padding: 12px 15px; color: white;
+    font-size: 16px; font-weight: bold; text-align: center;
+  }
+  .video-main-area { position: relative; padding-bottom: 56.25%; height: 0; background-color: #1a1a1a; }
+  #ad-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer; display: flex; align-items: center; justify-content: center; background-color: rgba(0,0,0,0.5); }
+  .ad-overlay-content { color: #f1f1f1; text-align: center; max-width: 600px; width: 90%; line-height: 1.5; box-shadow: 0 0 20px rgba(0,0,0,0.6); padding: 25px 30px; border-radius: 5px; background-size: cover; background-position: center; }
+  .ad-overlay-content p { margin: 0 0 12px 0; font-size: 16px; font-weight: 500; }
+  .ad-overlay-content p.ad-notice { font-size: 13px; opacity: 0.8; margin-bottom: 20px; }
+  .warning-text { font-weight: bold; color: #ffdd00; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+  .video-iframe-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
+  .video-iframe-container iframe { width: 100%; height: 100%; border: none; }
+  .player-bottom-bar { background-color: #c00; }
+  .player-controls-desktop { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; }
+  .player-controls-desktop .player-controls-left, .player-controls-desktop .player-controls-right { display: flex; align-items: center; gap: 20px; }
+  .control-btn { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 7px; transition: color 0.2s; background: none; border: none; cursor: pointer; padding: 0; }
+  .control-btn:hover { color: #fff; }
+  .control-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+  .player-controls-desktop .popup-btn { background-color: #4CAF50; color: white; padding: 7px 14px; border-radius: 4px; }
+  .player-controls-desktop .popup-btn:hover { background-color: #45a049; }
+  .player-controls-desktop .popup-btn svg { width: 15px; height: 15px; }
+  .player-controls-mobile { display: none; }
+  
+  .movie-details-container {
+    background-color: #1a1a1a;
+    padding: 20px 15px; /* Padding disamakan dengan bar lain */
+    color: #ccc;
+    border: 1px solid #333;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    margin-top: -1px; /* Agar border menyatu */
+  }
+  .details-list { list-style: none; padding: 0; margin: 0 0 15px 0; }
+  .details-list li { display: flex; padding: 8px 0; font-size: 14px; border-bottom: 1px dashed #444; align-items: flex-start; }
+  .details-list li:last-child { border-bottom: none; }
+  .details-list li strong { color: #fff; font-weight: 600; width: 110px; flex-shrink: 0; }
+  .details-list li a { color: #c00; font-weight: 500; text-decoration: none; }
+  .details-list li a:hover { text-decoration: underline; }
+  .details-list li span, .details-list li div { color: #ccc; font-weight: 500; }
+  .details-list li div a:not(:last-child)::after { content: ", "; text-decoration: none; color: #ccc; }
+  .sinopsis-section { margin-top: 15px; }
+  .sinopsis-section h3 { color: #fff; border-bottom: 2px solid #c00; display: inline-block; font-size: 18px; margin: 0 0 10px 0; padding-bottom: 5px; }
+  .sinopsis-section p { margin: 0; line-height: 1.6; }
+  #trailer-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 999; display: none; align-items: center; justify-content: center; }
+  .trailer-modal-content { background: #111; padding: 15px; border-radius: 8px; width: 90%; max-width: 900px; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
+  #close-trailer-modal { position: absolute; top: -15px; right: -15px; background: white; color: black; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 24px; font-weight: bold; cursor: pointer; line-height: 35px; text-align: center; }
+  .trailer-video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+  .trailer-video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+  
+  /* === CSS UNTUK TAMPILAN MOBILE === */
+  @media screen and (max-width: 768px) {
+    .full-streaming-module {
+      margin: 0;
+      width: 100%;
+    }
+    .video-player-wrapper, .movie-details-container {
+      border-radius: 0;
+    }
+    .player-controls-desktop { display: none; }
+    .player-controls-mobile { display: block; }
+    .player-bottom-bar { padding: 0; }
+    .controls-row-1, .controls-row-2 { display: flex; align-items: center; padding: 12px 15px; }
+    .controls-row-1 { justify-content: space-around; }
+    .controls-row-2 { justify-content: center; border-top: 1px solid rgba(255,255,255,0.2); }
+    #popup-btn-mobile { background: transparent; padding: 0; }
+    .movie-details-container { padding: 15px; }
+    .details-list li { font-size: 13px; }
+    .details-list li strong { width: 95px; }
+  }
+</style>
+
+<!-- (BAGIAN 2) HTML YANG SUDAH DIRESTRUKTURISASI -->
+<div class="full-streaming-module">
+  <div class="video-player-wrapper">
+    <div class="player-top-bar"><span id="movie-title-placeholder">Nonton Film Kamu Di Sini</span></div>
+    <div class="video-main-area">
+      <div id="ad-overlay">
+        <div class="ad-overlay-content">
+          <p>Klik untuk Memulai Video</p>
+          <p class="ad-notice">(Iklan akan tampil 1x)</p>
+          <span class="warning-text">THIS PLAYER CONTAINS ADS</span>
+        </div>
+      </div>
+      <div class="video-iframe-container"><iframe id="video-player-iframe" src="" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+    <div class="player-bottom-bar">
+      <div class="player-controls-desktop">
+        <div class="player-controls-left">
+          <button id="fullscreen-btn" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg><span>FULLSCREEN</span></button>
+          <button id="comments-btn" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>COMMENTS</span></button>
+          <button id="trailer-btn" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg><span>TRAILER</span></button>
+          <button id="report-btn" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span>REPORT</span></button>
+        </div>
+        <div class="player-controls-right">
+          <button id="popup-btn" class="control-btn popup-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg><span>POPUP</span></button>
+        </div>
+      </div>
+      <div class="player-controls-mobile">
+        <div class="controls-row-1">
+          <button id="fullscreen-btn-mobile" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg><span>FULLSCREEN</span></button>
+          <button id="comments-btn-mobile" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>COMMENTS</span></button>
+          <button id="trailer-btn-mobile" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg><span>TRAILER</span></button>
+        </div>
+        <div class="controls-row-2">
+          <button id="popup-btn-mobile" class="control-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg><span>POPUP</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="movie-details-container">
+    <ul class="details-list"><li><strong>Kualitas</strong><a href="/kualitas/cam/">CAM</a></li><li><strong>Negara</strong><div><a href="/negara/united-kingdom/">United Kingdom</a><a href="/negara/united-states/">United States</a></li><li><strong>Bintang film</strong><div><a href="/aktor/hayley-atwell/">Hayley Atwell</a><a href="/aktor/tom-cruise/">Tom Cruise</a><a href="/aktor/ving-rhames/">Ving Rhames</a></div></li><li><strong>Genre</strong><div><a href="/genre/action/">Action</a><a href="/genre/adventure/">Adventure</a><a href="/genre/thriller/">Thriller</a></div></li><li><strong>Sutradara</strong><span>Christopher McQuarrie</span></li><li><strong>Diterbitkan</strong><span>21 Mei 2025</span></li><li><strong>Oleh</strong><span>Cinema Barat</span></li></ul>
+    <div class="sinopsis-section"><h3>Sinopsis</h3><p>Hidup kita adalah hasil dari pilihan-pilihan kita. Tom Cruise adalah Ethan Hunt dalam Mission: Impossible - The Final Reckoning.</p></div>
+  </div>
+</div>
+
+<!-- (BAGIAN 4) HTML TRAILER MODAL & JAVASCRIPT -->
+<div id="trailer-modal">
+  <div class="trailer-modal-content"><button id="close-trailer-modal">×</button><div class="trailer-video-wrapper"><iframe id="trailer-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+</div>
+
+<script>
+// ===============================================
+// ===    KONFIGURASI FILM (EDIT DI SINI)    ===
+// ===============================================
+const JUDUL_FILM = "SUMBER VIDEO HYDRAX";
+const VIDEO_EMBED_URL = "https://short.icu/SDsfq0kGs";
+const POSTER_IMAGE_URL = ".";
+const DIRECT_LINK_URL = "https://www.profitableratecpm.com/vahp6qju?key=b0f273aabeb2834788e37d9308d2a37b";
+const TRAILER_YOUTUBE_URL = "https://www.youtube.com/embed/fsQgc9pCyDU";
+// ===============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const adOverlay = document.getElementById('ad-overlay');
+    const adOverlayContent = document.querySelector('.ad-overlay-content');
+    const videoIframe = document.getElementById('video-player-iframe');
+    const trailerModal = document.getElementById('trailer-modal');
+    const closeTrailerModalBtn = document.getElementById('close-trailer-modal');
+    const trailerIframe = document.getElementById('trailer-iframe');
+
+    function initializePlayer() {
+        document.getElementById('movie-title-placeholder').textContent = JUDUL_FILM;
+        adOverlayContent.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${POSTER_IMAGE_URL}')`;
+    }
+
+    adOverlay.addEventListener('click', function() {
+        videoIframe.src = VIDEO_EMBED_URL;
+        this.style.display = 'none';
+        if (DIRECT_LINK_URL && DIRECT_LINK_URL !== "") { window.open(DIRECT_LINK_URL, '_blank'); }
+    });
+
+    function openTrailer() {
+        if (TRAILER_YOUTUBE_URL) {
+            trailerIframe.src = TRAILER_YOUTUBE_URL + "?autoplay=1&rel=0";
+            trailerModal.style.display = 'flex';
+        }
+    }
+    
+    function closeTrailer() {
+        trailerModal.style.display = 'none';
+        trailerIframe.src = '';
+    }
+    closeTrailerModalBtn.addEventListener('click', closeTrailer);
+    trailerModal.addEventListener('click', function(e) { if (e.target === trailerModal) { closeTrailer(); } });
+
+    function goFullscreen() { if(videoIframe.src) videoIframe.requestFullscreen(); }
+    function goToComments() { window.location.href = '#comments'; }
+    function goToReport() { window.location.href = '/report-page'; }
+    function openPopup() {
+        const urlToOpen = videoIframe.src && videoIframe.src !== 'about:blank' ? videoIframe.src : VIDEO_EMBED_URL;
+        window.open(urlToOpen, 'videoPopup', 'width=854,height=480,scrollbars=yes,resizable=yes');
+    }
+
+    // Event Listeners untuk semua tombol
+    document.querySelectorAll('#fullscreen-btn, #fullscreen-btn-mobile').forEach(btn => btn.addEventListener('click', goFullscreen));
+    document.querySelectorAll('#comments-btn, #comments-btn-mobile').forEach(btn => btn.addEventListener('click', goToComments));
+    document.querySelectorAll('#trailer-btn, #trailer-btn-mobile').forEach(btn => btn.addEventListener('click', openTrailer));
+    document.querySelectorAll('#report-btn').forEach(btn => btn.addEventListener('click', goToReport));
+    document.querySelectorAll('#popup-btn, #popup-btn-mobile').forEach(btn => btn.addEventListener('click', openPopup));
+    
+    initializePlayer();
+});
+</script>

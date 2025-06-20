@@ -44,12 +44,20 @@
         width: 100%;
     }
 
+    /* <<< CSS BARU DI SINI >>> */
+    /* Membuat wadah iklan bisa di-scroll ke samping di HP */
+    .scrollable-ad-content {
+        overflow-x: auto; /* Mengaktifkan scroll horizontal */
+        -webkit-overflow-scrolling: touch; /* Scroll mulus di iOS */
+        text-align: left; /* Iklan mulai dari kiri */
+    }
+
     /* Style lainnya */
     .movie-player-box .title-wrapper { 
         border-bottom: 2px solid #282828; 
         padding-bottom: 15px; 
         margin-bottom: 20px;
-        text-align: center; /* <<< PERUBAHAN ADA DI SINI */
+        text-align: center;
     }
     .movie-player-box .movie-title { font-size: 30px; font-weight: 700; color: #E50914; margin: 0; line-height: 1.3; }
     .movie-player-box .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background-color: #000; border-radius: 8px; overflow: hidden; }
@@ -60,6 +68,7 @@
     .movie-player-box .server-btn { padding: 10px 20px; border: 2px solid #333; background-color: #282828; color: #f4f4f4; border-radius: 5px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s ease-in-out; font-family: 'Poppins', sans-serif; }
     .movie-player-box .server-btn:hover { background-color: #333; border-color: #555; }
     .movie-player-box .server-btn.active { background-color: #E50914; border-color: #E50914; }
+    
     @media (max-width: 600px) {
         .movie-player-box { padding: 15px; }
         .movie-player-box .movie-title { font-size: 19px; }
@@ -75,19 +84,33 @@
         <h2 class="movie-title">The Amateur (2025)</h2>
     </div>
 
-    <!-- IKLAN BANNER -->
-    <!-- Slot Iklan 1: Di Atas Player -->
+    <!-- IKLAN BANNER ATAS (728x90) -->
     <div class="ad-slot" id="ad-slot-top">
         <span class="ad-label">Advertisement</span>
-        <div class="ad-content">
-            <!-- PASTE KODE IKLAN BANNER ADSTERRA KAMU DI SINI -->
+        <!-- <<< PERUBAHAN HTML DI SINI >>> -->
+        <div class="ad-content scrollable-ad-content">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '654bcf4ba6c02c3a8e8692452efbeb53',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/654bcf4ba6c02c3a8e8692452efbeb53/invoke.js"></script>
         </div>
     </div>
     
     <div class="video-wrapper">
         <iframe class="video-player" src="" allowfullscreen></iframe>
     </div>
-<script type="text/javascript">
+
+    <!-- IKLAN BANNER BAWAH (300x250) -->
+    <div class="ad-slot" id="ad-slot-bottom">
+        <span class="ad-label">Advertisement</span>
+        <div class="ad-content">
+            <script type="text/javascript">
 	atOptions = {
 		'key' : '654bcf4ba6c02c3a8e8692452efbeb53',
 		'format' : 'iframe',
@@ -97,12 +120,6 @@
 	};
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/654bcf4ba6c02c3a8e8692452efbeb53/invoke.js"></script>
-    <!-- IKLAN BANNER -->
-    <!-- Slot Iklan 2: Di Bawah Player -->
-    <div class="ad-slot" id="ad-slot-bottom">
-        <span class="ad-label">Advertisement</span>
-        <div class="ad-content">
-            <!-- PASTE KODE IKLAN BANNER ADSTERRA KAMU DI SINI -->
         </div>
     </div>
 
